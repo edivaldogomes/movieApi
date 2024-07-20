@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/file/")
 public class FileController {
     private final FileService fileService;
 
@@ -23,17 +23,16 @@ public class FileController {
     @Value("${project.poster}")
     private String path;
 
-    @PostMapping("/upload")
+    @PostMapping("upload")
     public ResponseEntity<String> uploadFileHandler(@RequestPart MultipartFile file) throws IOException {
         String uploadedFileName = fileService.uploadFile(path, file);
         return ResponseEntity.ok("File uploaded: " + uploadedFileName);
     }
 
-    @GetMapping("/{filename}")
+    @GetMapping("{filename}")
     public void serverFileHandler(@PathVariable String filename, HttpServletResponse response) throws IOException {
         InputStream resourceFile = fileService.getResourceFile(path, filename);
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         StreamUtils.copy(resourceFile, response.getOutputStream());
     }
-
 }
