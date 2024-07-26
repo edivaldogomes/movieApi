@@ -1,5 +1,4 @@
 package com.movie.show.movie.api.controllers;
-
 import com.movie.show.movie.api.services.FileService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;

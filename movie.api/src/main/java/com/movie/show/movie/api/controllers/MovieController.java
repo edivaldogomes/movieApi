@@ -30,6 +30,7 @@ public class MovieController {
     public ResponseEntity<MovieDto> getMovieHandler(@PathVariable Integer movieId) throws IOException{
         return ResponseEntity.ok(movieService.getMovie(movieId));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<MovieDto>> getAllMovieHandler() throws IOException{
         return ResponseEntity.ok(movieService.getAllMovies());
@@ -39,7 +40,5 @@ public class MovieController {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(movieDtoObj, MovieDto.class);
     }
-
-
 
 }
