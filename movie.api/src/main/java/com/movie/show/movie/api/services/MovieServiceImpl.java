@@ -123,12 +123,64 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDto updateMovie(Integer movieId, MovieDto movieDto, MultipartFile file) throws IOException {
+        // 1. Check if movie object exists with given movieId
+        Movie mv = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found"));
 
-        return null;
+        // 2. if file is not null, do nothing
+        // if file is not null, then delete existing file associated with the record
+        // and upload the new file
+
+        String fileName = mv.getPoster();
+        if (file != null) {
+            Files.deleteIfExists(Paths.get(path + File.separator + fileName));
+            fileName = fileService.uploadFile(path, file);
+        }
+
+        // 3. Set movieDto's poster value, according to step2
+        movieDto.setPoster(fileName);
+
+        // 4. map it to Movie object
+        Movie movie = new Movie(
+                mv.getMovieId(),
+                movieDto.getTitle(),
+                movieDto.getDirector(),
+                movieDto.getStudio(),
+                movieDto.getMovieCast(),
+                movieDto.getReleaseYear(),
+                movieDto.getPoster()
+        );
+
+        // 5. save the movie object -> return saved movie object
+        Movie updatedMovie = movieRepository.save(movie);
+
+        // 6. generate porterUrl for it
+        String posterUrl = baseUrl + "/file/" + fileName;
+
+        // 7. map to MovieDto and return it
+        MovieDto response = new MovieDto(
+                movie.getMovieId(),
+                movie.getTitle(),
+                movie.getDirector(),
+                movie.getStudio(),
+                movie.getMovieCast(),
+                movie.getReleaseYear(),
+                movie.getPoster(),
+                posterUrl
+        );
+        return response;
     }
 
     @Override
     public String deleteMovie(Integer movieId) throws IOException {
-        return "";
+        // 1. Check if movie object exists in DB
+        Movie mv = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found"));
+        Integer id = mv.getMovieId();
+        // 2. Delete the file associated with this object
+        Files.deleteIfExists(Paths.get(path + File.separator + mv.getPoster()));
+
+        // 3. Delete the movie object
+        movieRepository.delete(mv);
+
+        return "Movie deleted with id: " + id;
     }
 }

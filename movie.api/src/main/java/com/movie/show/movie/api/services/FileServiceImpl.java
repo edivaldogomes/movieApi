@@ -4,35 +4,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 
 @Service
 public class FileServiceImpl implements  FileService{
 
     @Override
     public String uploadFile(String path, MultipartFile file) throws IOException {
+        // Define the directory
         String directory = "poster";
         Path directoryPath = Paths.get(directory);
 
-        // get name of the file
+        // Get the name of the file
         String fileName = file.getOriginalFilename();
-        // get the file path
+        // Get the full file path
         String filePath = path + File.separator + fileName;
 
-        // create file object
-        File newFile = new File(filePath);
+        // Create the directory if it doesn't exist
         if (Files.notExists(directoryPath)) {
             Files.createDirectories(directoryPath);
         }
 
-        if(!newFile.exists()){
-            newFile.mkdir();
+        // Create the file object
+        File newFile = new File(filePath);
+
+        // Check if the file already exists
+        if (newFile.exists()) {
+            throw new FileAlreadyExistsException("File already exists: " + filePath);
         }
-        // copy the file or upload file to the path
-        Files.copy(file.getInputStream(), Paths.get(filePath));
+
+        // Create the new file
+        newFile.createNewFile();
+
+        // Copy the file or upload the file to the path
+        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 
         return fileName;
     }
