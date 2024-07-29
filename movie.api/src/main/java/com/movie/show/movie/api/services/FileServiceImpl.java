@@ -1,7 +1,10 @@
 package com.movie.show.movie.api.services;
 
+import org.apache.commons.io.FileUtils;
+
 import com.movie.show.movie.api.exceptions.EmptyFileException;
 import com.movie.show.movie.api.exceptions.FileExistsException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +12,7 @@ import java.io.*;
 import java.nio.file.*;
 
 @Service
-public class FileServiceImpl implements  FileService{
+public class FileServiceImpl implements FileService {
 
     @Override
     public String uploadFile(String path, MultipartFile file) throws IOException {
@@ -29,13 +32,16 @@ public class FileServiceImpl implements  FileService{
         // Check if the file already exists
         if (newFile.exists()) {
             throw new FileAlreadyExistsException("File already exists: " + filePath);
-        } else {
+        }/*else {
             // Create the new file
-            newFile.createNewFile();
+            //newFile.mkdir();
+            //newFile.createNewFile();
             // Copy the file or upload the file to the path
-            Files.copy(file.getInputStream(), Paths.get(filePath));
-        }
-     return fileName;
+           // FileUtils.copy();
+
+        }*/
+        Files.copy(file.getInputStream(), Paths.get(filePath));
+        return fileName;
     }
 
     @Override

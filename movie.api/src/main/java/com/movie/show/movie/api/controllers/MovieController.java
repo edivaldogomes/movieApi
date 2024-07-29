@@ -1,7 +1,9 @@
 package com.movie.show.movie.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movie.show.movie.api.constants.AppContants;
 import com.movie.show.movie.api.dtos.MovieDto;
+import com.movie.show.movie.api.dtos.MoviePageResponse;
 import com.movie.show.movie.api.exceptions.EmptyFileException;
 import com.movie.show.movie.api.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class MovieController {
     @PostMapping("/add-movie")
     public ResponseEntity<MovieDto> addMovie(@RequestPart MultipartFile file, @RequestPart String movieDto) throws IOException, EmptyFileException {
 
-        if(file.isEmpty()) {
+        if (file.isEmpty()) {
             throw new EmptyFileException("File is empty! Please send another file!");
         }
         MovieDto dto = convertToMovieDto(movieDto);
@@ -53,6 +55,16 @@ public class MovieController {
     @DeleteMapping("/delete/{movieId}")
     public ResponseEntity<String> deleteMovieHandler(@PathVariable Integer movieId) throws IOException {
         return ResponseEntity.ok(movieService.deleteMovie(movieId));
+    }
+
+    @GetMapping("/allMoviePage")
+    public ResponseEntity<MoviePageResponse> getAllMoviePaginationHandler(@RequestParam(defaultValue = AppContants.PAGE_NUMBER, required = false) Integer pageNumber, @RequestParam(defaultValue = AppContants.PAGE_SIZE, required = false) Integer pageSize) throws IOException {
+        return ResponseEntity.ok(movieService.getAllMoviesWithPagination(pageNumber, pageSize));
+    }
+
+    @GetMapping("/allMoviePageSort")
+    public ResponseEntity<MoviePageResponse> getAllMoviesWithPaginationAndSorting(@RequestParam(defaultValue = AppContants.PAGE_NUMBER, required = false) Integer pageNumber, @RequestParam(defaultValue = AppContants.PAGE_SIZE, required = false) Integer pageSize, @RequestParam(defaultValue = AppContants.SORT_BY, required = false) String sortBy,  @RequestParam(defaultValue = AppContants.SORT_DIR, required = false) String dir) throws IOException {
+        return ResponseEntity.ok(movieService.getAllMoviesWithPaginationAndSorting(pageNumber, pageSize, sortBy, dir));
     }
 
 
