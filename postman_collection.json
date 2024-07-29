@@ -155,11 +155,11 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/C:/Users/ednic/Pictures/Screenshots/foto1.png"
+							"src": "/C:/Users/ednic/Pictures/Screenshots/foto4.png"
 						},
 						{
 							"key": "movieDto",
-							"value": "{\n    \"title\": \"Toy Story 2 (1999)\",\n    \"director\": \"Russo Brothers\",\n    \"studio\": \"Marvel Studios\",\n    \"movieCast\": [\"RDJ\", \"Chris Evans\", \"Scarlett Johansson\"],\n    \"releaseYear\": 2018,\n    \"poster\": \"default.png\",\n    \"posterUrl\": \"url\"\n  }",
+							"value": "{\n    \"title\": \"edi223 (1999)\",\n    \"director\": \"Russo Brothers\",\n    \"studio\": \"Marvel Studios\",\n    \"movieCast\": [\"RDJ\", \"Chris Evans\", \"Scarlett Johansson\"],\n    \"releaseYear\": 2018,\n    \"poster\": \"default.png\",\n    \"posterUrl\": \"url\"\n  }",
 							"type": "text"
 						}
 					]
@@ -221,6 +221,120 @@
 						"movie",
 						"delete",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetallMoviePageSort",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/movie/allMoviePageSort",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"movie",
+						"allMoviePageSort"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllMoviePage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/movie/allMoviePage?pageNumber=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"movie",
+						"allMoviePage"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllMoviePage ModifieldParam pageSize",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/movie/allMoviePage?pageNumber=1&pageSize=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"movie",
+						"allMoviePage"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllMoviePageSort Modifield by param by Title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/movie/allMoviePageSort?sortyBy=title&dir=dsc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"movie",
+						"allMoviePageSort"
+					],
+					"query": [
+						{
+							"key": "sortyBy",
+							"value": "title"
+						},
+						{
+							"key": "dir",
+							"value": "dsc"
+						}
 					]
 				}
 			},

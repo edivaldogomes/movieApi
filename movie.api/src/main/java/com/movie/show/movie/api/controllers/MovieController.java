@@ -67,7 +67,6 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getAllMoviesWithPaginationAndSorting(pageNumber, pageSize, sortBy, dir));
     }
 
-
     private MovieDto convertToMovieDto(String movieDtoObj) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(movieDtoObj, MovieDto.class);
